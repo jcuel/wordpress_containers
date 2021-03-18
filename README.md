@@ -1,5 +1,5 @@
 # wordpress_containers
-##Containers with Wordpress, MariaDB, and using docker volumes and networking.
+## Containers with Wordpress, MariaDB, and using docker volumes and networking.
 ##################################
 #
 ##		Idea:
@@ -69,9 +69,9 @@ root@containerhost:/home/instructor/projects/wordpress_containers# docker networ
 ]
 
 ```
-##2) Create MariaDB Container
+## 2) Create MariaDB Container
  
-###a) pull mariadb image from docker source
+### a) pull mariadb image from docker source
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers# docker pull mariadb:latest
@@ -94,7 +94,7 @@ docker.io/library/mariadb:latest
 
 ```
 
-###b) Create mariadb container & validate
+### b) Create mariadb container & validate
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers# docker run -e MYSQL_ROOT_PASSWORD=root-password -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=wpdb -v /home/instructor/projects/wordpress_containers/database:/var/lib/mysql --name wordpressdb -d mariadb
@@ -112,14 +112,14 @@ ONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS        
 - *-v /home/instructor/projects/wordpress_containers/database:/var/lib/mysql: This will link the database directory to the mysql directory.
 
 ```	
-###c) Add PRIVATE_SUBNET to the container and remove bridge subnet. 
+### c) Add PRIVATE_SUBNET to the container and remove bridge subnet. 
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers# docker network disconnect bridge wordpressdb
 root@containerhost:/home/instructor/projects/wordpress_containers#  docker network connect PRIVATE_SUBNET wordpressdb
 
 ```	
-###d) Validate it has updated it's ip address to be under PRIVATE_SUBNET
+### d) Validate it has updated it's ip address to be under PRIVATE_SUBNET
 
 ```
 root@containerhost:~# docker inspect  wordpressdb | grep IPAddress
@@ -128,7 +128,7 @@ root@containerhost:~# docker inspect  wordpressdb | grep IPAddress
 "IPAddress": "172.21.0.2",
 
 ```
-###e) Validate DB is running on mapped volume (host drive) This ensures db data is actually in an non-volatile storage so data remains even if container fails.		
+### e) Validate DB is running on mapped volume (host drive) This ensures db data is actually in an non-volatile storage so data remains even if container fails.		
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers/database# ls
@@ -136,9 +136,9 @@ aria_log.00000001  ib_buffer_pool  ib_logfile0  multi-master.info  performance_s
 aria_log_control   ibdata1         ibtmp1       mysql              wpdb
 
 ```	
-##3) Create Adminer Container with 2 networks (bridge & PRIVATE_SUBNET) db for management
+## 3) Create Adminer Container with 2 networks (bridge & PRIVATE_SUBNET) db for management
 
-*This command will not be used as --link is marked as legacy command*
+* This command will not be used as --link is marked as legacy command *
 
 ```
 	#docker run --link wordpressdb -p 8080:8080 adminer
@@ -169,7 +169,7 @@ Status: Downloaded newer image for adminer:latest
 dcffb6bde658d8ea753f990bd7e3b1fc8e7cf0684d06f8dd20fc9b14a3fa110e
 
 ```	
-###OOpps fogot to name the container, let's rename it.
+### OOpps fogot to name the container, let's rename it.
 
 ```	
 root@containerhost:/home/instructor/projects/wordpress_containers# docker ps
@@ -183,7 +183,7 @@ dcffb6bde658   adminer   "entrypoint.sh docke…"   About an hour ago   Up About
 93d29fa6a298   mariadb   "docker-entrypoint.s…"   4 hours ago         Up About an hour   3306/tcp                 wordpressdb
 
 ```	
-###attach public switch to be able to access tool and validate
+### attach public switch to be able to access tool and validate
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers# docker network connect bridge adminer
@@ -194,7 +194,7 @@ root@containerhost:/home/instructor/projects/wordpress_containers# docker inspec
 "IPAddress": "172.17.0.2",
 
 ```	
-###Don't forget to open port 8080 on your host
+### Don't forget to open port 8080 on your host
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers# sudo ufw allow 8080
@@ -202,9 +202,9 @@ Rules updated
 Rules updated (v6)
 
 ```
-*Now we have an adminer instance running on our container accesible from db network and exteranl on 8080 for management*
+* Now we have an adminer instance running on our container accesible from db network and exteranl on 8080 for management *
 	
-##4) Install wordpress container
+## 4) Install wordpress container
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers/html# docker run -d -e WORDPRESS_DB_USER=wpuser -e WORDPRESS_DB_PASSWORD=password -e WORDPRESS_DB_NAME=wpdb -p 8081:80 -v /home/instructor/projects/wordpress_containers/html:/var/www/html --network PRIVATE_SUBNET --name wpcontainer -d wordpress
@@ -235,7 +235,7 @@ Status: Downloaded newer image for wordpress:latest
 8e150b0c297d42f7db450cbb7db42d0059d17358965f38791a2c3f9e923ac43d
 
 ```
-###let's attach public switch so we can navigate wordpress
+### let's attach public switch so we can navigate wordpress
 
 ```
 root@containerhost:/home/instructor/projects/wordpress_containers/html# docker network connect bridge wpcontainer
@@ -255,8 +255,8 @@ Rules updated
 Rules updated (v6)
 
 ```
-*I forgot to define the ip address for our sql server under the wp deployment.*
-* Hence I would need to update it under /home/instructor/projects/wordpress_containers/html/wp-content.php*
-*Now we can do what ever we want with it, and if crash, data is stored on our host, hence it would remain live and we justneed to redeploy and afterwards mv the data.
+* I forgot to define the ip address for our sql server under the wp deployment. * 
+* Hence I would need to update it under /home/instructor/projects/wordpress_containers/html/wp-content.php *
+* Now we can do what ever we want with it, and if crash, data is stored on our host, hence it would remain live and we justneed to redeploy and afterwards mv the data. *
 
 	
