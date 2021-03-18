@@ -246,7 +246,7 @@ root@containerhost:/home/instructor/projects/wordpress_containers/html# docker i
                     "IPAddress": "172.17.0.3",
 
 ```
-###ensure port 8081 is open
+### ensure port 8081 is open
 
 ```
 ufw allow 8081
