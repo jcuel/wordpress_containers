@@ -138,7 +138,7 @@ aria_log_control   ibdata1         ibtmp1       mysql              wpdb
 ```	
 ## 3) Create Adminer Container with 2 networks (bridge & PRIVATE_SUBNET) db for management
 
-* This command will not be used as --link is marked as legacy command *
+*This command will not be used as --link is marked as legacy command*
 
 ```
 	#docker run --link wordpressdb -p 8080:8080 adminer
@@ -255,8 +255,9 @@ Rules updated
 Rules updated (v6)
 
 ```
-* I forgot to define the ip address for our sql server under the wp deployment. * 
-* Hence I would need to update it under /home/instructor/projects/wordpress_containers/html/wp-content.php *
-* Now we can do what ever we want with it, and if crash, data is stored on our host, hence it would remain live and we justneed to redeploy and afterwards mv the data. *
+
+*I forgot to define the ip address for our sql server under the wp deployment.* 
+*Hence I would need to update it under /home/instructor/projects/wordpress_containers/html/wp-content.php*
+*Now we can do what ever we want with it, and if crash, data is stored on our host, hence it would remain live and we justneed to redeploy and afterwards mv the data.*
 
 	
