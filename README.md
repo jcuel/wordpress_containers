@@ -4,7 +4,7 @@
 #
 ##		Idea:
 #		- *Networking Isolation*
-#		- *Multiple containers (services) working toguether*
+#		- *Multiple containers (services) working together*
 #		- *Volumes*
 #		
 #		1) Create Private Network Bridge
