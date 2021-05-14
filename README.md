@@ -105,11 +105,11 @@ ONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS        
 ```	
 ### *Definitions:*
 ```
-- *MYSQL_ROOT_PASSWORD: This option will configure MariaDB root password.
-- *MYSQL_USER: This will create a new wpuser for WordPress.
-- *MYSQL_PASSWORD: This will set the password for wpuser.
-- *MYSQL_DATABASE: This will create a new database named wpdb for WordPress.
-- *-v /home/instructor/projects/wordpress_containers/database:/var/lib/mysql: This will link the database directory to the mysql directory.
+- *MYSQL_ROOT_PASSWORD:* This option will configure MariaDB root password.
+- *MYSQL_USER:* This will create a new wpuser for WordPress.
+- *MYSQL_PASSWORD:* This will set the password for wpuser.
+- *MYSQL_DATABASE:* This will create a new database named wpdb for WordPress.
+- *-v /home/instructor/projects/wordpress_containers/database:/var/lib/mysql:* This will link the database directory to the mysql directory.
 
 ```	
 ### c) Add PRIVATE_SUBNET to the container and remove bridge subnet. 
